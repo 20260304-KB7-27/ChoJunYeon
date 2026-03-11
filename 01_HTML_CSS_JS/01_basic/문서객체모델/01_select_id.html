@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = function() {
+            const header = document.getElementById('header'); // 요소 선택
+
+            header.style.color = 'orange';
+            header.style.backgroundColor = 'red';
+            // innerText는 <strong> 태그 또한 텍스트로 표현함.
+            header.innerText = 'From JavaScript';
+            // innerText는 <strong> 태그를 HTML 요소로 표현함.
+            // -> 브라우저에 보이는 텍스트를 기준
+            // CSS 랜더링에 영향을 받음
+            header.innerHTML = '<strong>From JavaScript</strong>'
+
+            const box = document.getElementById('box');
+            console.log(box.innerText);
+
+            // textContent
+            // 데이터만 처리할때는 주로 textContent만 사용 <- 왜??
+            console.log(box.innerContent);
+        };
+    </script>
+</head>
+<body>
+    <h1 id="header">Header</h1>
+    <div id="box">
+        hello
+        <span style="display: none;">World</span>
+    </div>
+</body>
+</html>
