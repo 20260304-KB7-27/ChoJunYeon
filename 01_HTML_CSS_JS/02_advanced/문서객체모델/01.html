@@ -5,7 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script>
-        let name = document.getElementById(name);
+      window.onload = function () {
+        document.getElementById('btn').addEventListener(
+          'click',
+          function () {
+            let name = document.getElementById('name');
+            console.log(name.value);
+          },
+          false,
+        );
+      };
     </script>
   </head>
   <body>
