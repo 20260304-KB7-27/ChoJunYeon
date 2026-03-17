@@ -1,2 +1,1 @@
-# ChoJunYeon
-조준연
+# Git Basic Class
