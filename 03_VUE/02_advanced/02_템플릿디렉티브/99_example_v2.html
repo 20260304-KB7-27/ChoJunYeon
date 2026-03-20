@@ -17,13 +17,13 @@
           v-for="(value, key, index) in posts"
           :key="value.no"
           @click="clickPost(value)"
-          style="display: block;"
+          style="display: block"
         >
-        <div style="display: flex;">
-          <h3>{{value.no}}. {{value.content}}</h3>
-          <span>{{selectedPost?.no == value.no ? `▲` : `▼` }}</span>
-        </div>
-          <br>
+          <div style="display: flex">
+            <h3>{{value.no}}. {{value.content}}</h3>
+            <span>{{selectedPost?.no == value.no ? `▲` : `▼` }}</span>
+          </div>
+          <br />
           <div class="post-content" v-if="selectedPost?.no===value.no">
             <h2>{{selectedPost.title}}</h2>
             <p>{{selectedPost.content}}</p>
