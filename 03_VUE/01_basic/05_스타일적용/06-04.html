@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <button :style="[myColor, myLayOut]">테스트</button>
+    </div>
+
+    <script>
+      const { createApp, ref } = Vue;
+
+      createApp({
+        setup() {
+          const myColor = ref({
+            backgroundColor: 'purple',
+            color: 'yellow',
+          })
+          const myLayOut = ref({
+            width: '150px', height: '80px',
+            justifyContent: 'center',
+          })
+          return {
+            myColor,
+            myLayOut
+          };
+        },
+      }).mount('#app');
+    </script>
+    
+  </body>
+</html>

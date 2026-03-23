@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+      .buttonColor {
+        background-color: aqua;
+        color: black;
+      }
+      .buttonLayOut {
+        justify-content: center;
+        width: 120px;
+      }
+      .staticBorder {
+        border: khaki dashed 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <input type="checkbox" v-model="myColor.btnColor" id="color">
+      <label for="color">색상 변경</label>
+      <br>
+      <input type="checkbox" v-model="myColor.btnLayOut" id="layout">
+      <label for="layout">레이아웃 변경</label>
+      <br>
+      <input type="checkbox" v-model="btnBorder" id="border">
+      <label for="border">테두리 변경</label>
+      <br>
+      <button :class="{buttonColor:myColor.btnColor, buttonLayOut:myColor.btnLayOut, staticBorder:btnBorder}">테스트</button>
+      
+    </div>
+
+    <script>
+      const { createApp, ref } = Vue;
+
+      createApp({
+        setup() {
+          const btnBorder = ref(false);
+          const myColor = ref({
+            btnColor: false,
+            btnLayOut: false,
+          }
+
+          );
+          return {
+            myColor,
+            btnBorder
+          };
+        },
+      }).mount('#app');
+    </script>
+    
+  </body>
+</html>
