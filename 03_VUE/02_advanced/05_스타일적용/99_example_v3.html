@@ -11,8 +11,8 @@
       <h1>📌 게시판 목록 v1</h1>
 
       <!-- 아래의 목록을 완성하세요 -->
-      <input type="text" v-model="newTitle" />
-      <input type="text" v-model="newContent" />
+      <input type="text" v-model="addTitle" />
+      <input type="text" v-model="addContent" />
       <button @click="addPostHandler">저장</button>
       <ul>
         <li
@@ -23,16 +23,35 @@
           style="display: block"
         >
           <div style="display: flex">
-            <h3>{{value.no}}. {{value.content}}</h3>
+            <h3>{{value.no}}. {{value.title}}</h3>
             <span>{{selectedPost?.no == value.no ? `▲` : `▼` }}</span>
           </div>
           <br />
           <div class="post-content" v-if="selectedPost?.no===value.no">
             <h2>{{selectedPost.title}}</h2>
             <p>{{selectedPost.content}}</p>
-            <button id="close-contentBox" @click.stop="selectedPost=null">
-              닫기
-            </button>
+            <div style="text-align: right;">
+              <button @click="clickUpdateHandler(value)">수정</button>
+              <button @click="clickDeleteHandler(value)">삭제</button>
+              <button id="close-contentBox" @click.stop="selectedPost=null">
+                닫기
+              </button>
+            </div>
+            <div v-if="updatePost==true">
+              <hr />
+              제목:
+              <input type="text" v-model="newTitle" class="full-input" /><br />
+              내용:
+              <input
+                type="text"
+                v-model="newContent"
+                class="full-input"
+              /><br />
+              <div style="text-align: right">
+                <button @click.stop="updatePostHandler(value)">저장</button>
+                <button @click.stop="updatePost=false">취소</button>
+              </div>
+            </div>
           </div>
         </li>
       </ul>
@@ -113,25 +132,63 @@
           };
 
           const newNo = ref('');
+          const addNo = ref('');
+          const addTitle = ref('');
+          const addContent = ref('');
           const newTitle = ref('');
           const newContent = ref('');
 
           const addPostHandler = () => {
-            newNo.value = posts.value.length + 1;
+            addNo.value = posts.value.length + 1;
             const post = {
-              no: newNo.value,
-              title: newTitle.value,
-              content: newContent.value,
+              no: addNo.value,
+              title: addTitle.value,
+              content: addContent.value,
             };
             posts.value.push(post);
-            newNo.value = '';
+            addNo.value = '';
+            addContent.value = '';
+            addTitle.value = '';
+          };
+
+          const updatePost = ref(false);
+          const clickUpdateHandler = (v) => {
+            updatePost.value = true;
+            newTitle.value = v.title;
+            newContent.value = v.content;
+          };
+          const updatePostHandler = (v) => {
+            const index = posts.value.findIndex((post) => post.no === v.no);
+            if (index !== -1) {
+              posts.value[index] = {
+                no: v.no,
+                title: newTitle.value,
+                content: newContent.value,
+              };
+            }
+            updatePost.value = false;
+            selectedPost.value = posts.value[index];
             newContent.value = '';
             newTitle.value = '';
+      
           };
 
           const sortPosts = computed(() => {
             return posts.value.slice().sort((a, b) => b.no - a.no);
           });
+
+          const clickDeleteHandler = (v) => {
+            const index = posts.value.findIndex((post) => post.no === v.no);
+            if (index !== -1) {
+              const isConfirmed = confirm('정말로 삭제하시겠습니까?');
+              if (isConfirmed) {
+                //posts.value.splice(index, 1);
+                posts.value = posts.value.filter((post) => post.no != v.no);
+              } else {
+                alert('삭제가 취소되었습니다.');
+              }
+            }
+          };
 
           return {
             posts,
@@ -142,6 +199,13 @@
             newNo,
             newContent,
             newTitle,
+            updatePost,
+            clickUpdateHandler,
+            updatePostHandler,
+            clickDeleteHandler,
+            addNo,
+            addContent,
+            addTitle,
           };
         },
       }).mount('#app');
@@ -190,6 +254,13 @@
       .arrow {
         font-size: 0.8em;
         color: #888;
+      }
+
+      .full-input {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        padding: 8px;
       }
     </style>
   </body>
