@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+      .title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 20pt;
+      }
+      .todo-done {
+        text-decoration: line-through;
+      }
+      .container {
+        padding: 10px 10px 10px 10px;
+      }
+      .panel-borderless {
+        border: 0;
+        box-shadow: none;
+      }
+      .pointer {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="container">
+      <div class="card card-body bg-light">
+        <div classe="title">:: Todolist App</div>
+      </div>
+      <div class="card card-default card-borderless">
+        <div class="card-body">
+            <div>
+                <input type="text" v-model="todo" value="할 일을 여기에 입력">
+                <button @click="addTodo">추가</button>
+            </div>
+            <div>
+                <ul v-for="td in todolist" :key="td.id">
+                    <li>
+                        <div @click="toggleCompleted(td)">
+                            <p v-if="td.completed==false">{{td.content}}</p>
+                            <p v-else style="text-decoration: line-through">{{td.content}}(완료)</p>
+                            <button @click.stop="deleteTodo(td)">삭제</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const { createApp, ref } = Vue;
+
+      createApp({
+        setup() {
+            const id = ref('');
+            const todo = ref('');
+            const completed = ref(false);
+
+            const todolist = ref([]);
+
+            const addTodo = () => {
+                todolist.value.push( {id: Date.now(), content: todo.value, completed: completed.value});
+                todo.value = '';
+            }
+
+            const deleteTodo = (td) => {
+                const index = todolist.value.findIndex((todo) => todo.id === td.id);
+
+                if (index !== -1) {
+                    todolist.value.splice(index, 1);
+                }
+            }
+
+            const toggleCompleted = (td) => {
+                td.completed = !td.completed;
+                
+            }
+
+          return {
+            todolist,
+            addTodo,
+            deleteTodo,
+            toggleCompleted,
+            id,
+            todo,
+            completed,
+          };
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>
