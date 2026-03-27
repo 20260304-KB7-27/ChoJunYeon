@@ -131,6 +131,19 @@ const posts = ref([
       }
     };
 
+    //////////////////////////////////////////////////////////////////////
+
+    const addPost = (todo) => {
+      addNo.value = posts.value.length + 1;
+      const post = {
+        no: addNo.value,
+        title: todo.value,
+        content: todo.value,
+      };
+      posts.value.push(post);
+      addNo.value = '';
+    }
+
           
 </script>
 
@@ -139,7 +152,7 @@ const posts = ref([
       <h1>📌 게시판 목록 v1</h1>
 
       <!-- 아래의 목록을 완성하세요 -->
-      <InputTodo></InputTodo>
+      <InputTodo @addTodoHandler="addPost"></InputTodo>
       <input type="text" v-model="addTitle" />
       <input type="text" v-model="addContent" />
       <button @click="addPostHandler">저장</button>
